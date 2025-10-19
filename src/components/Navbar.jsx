@@ -1,34 +1,52 @@
+// src/components/Navbar.jsx
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 
 function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const user = {
-    name: "John Doe",
-    title: "Software Engineer",
-    department: "Engineering",
-    email: "john.doe@example.com",
-    profileImage: "https://i.pravatar.cc/40",
-    profileLink: "/profile",
-    settingsLink: "/settings",
-  };
-
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Employee Management", path: "/employees" },
-    { name: "Leave Management", path: "/leaves" },
-    { name: "Timesheets", path: "/timesheets" },
-    { name: "Feedback", path: "/feedback" },
-    { name: "Organization Chart", path: "/org-chart" },
-    { name: "Onboard Employee", path: "/onboard" },
-  ];
+  // ===== Get user info from Redux =====
+  const { name, department, email, isAdmin } = useSelector((state) => state.auth);
 
   const colorPrimary = "#3C467B";
   const colorLight = "#6E8CFB";
+
+  // ===== Dynamic role-based navigation =====
+  const adminLinks = [
+    { name: "Home", path: "/home" },
+    { name: "Employee Management", path: "/employee-management" },
+    { name: "Leave Management", path: "/leave-management" },
+    { name: "Timesheets", path: "/timesheets" },
+    { name: "Feedback", path: "/feedback" },
+    { name: "Organization Chart", path: "/orgchart" },
+    { name: "Onboard Employee", path: "/onboard" },
+  ];
+
+  const employeeLinks = [
+    { name: "Home", path: "/home" },
+    { name: "Leave Application", path: "/leave-application" },
+    { name: "Leave History", path: "/leave-history" },
+    { name: "Log Timesheet", path: "/log-timesheet" },
+    { name: "Your Feedback", path: "/your-feedback" },
+    { name: "Organisation Chart", path: "/orgchart" },
+  ];
+
+  const navLinks = isAdmin ? adminLinks : employeeLinks;
+
+  const handleLogout = () => {
+    setProfileOpen(false);
+    setIsOpen(false);
+    dispatch(logout());
+    navigate("/"); // redirect to login page
+  };
 
   return (
     <nav
@@ -36,12 +54,16 @@ function Navbar() {
       style={{ borderBottom: `3px solid ${colorPrimary}` }}
     >
       <div className="flex justify-between items-center h-16 px-4">
-        {/* HRMS Brand */}
-        <Link to="/" className="text-3xl font-bold" style={{ color: colorPrimary }}>
+        {/* Brand */}
+        <Link
+          to="/home"
+          className="text-3xl font-bold"
+          style={{ color: colorPrimary }}
+        >
           HRMS
         </Link>
 
-        {/* Right icons */}
+        {/* Right Controls */}
         <div className="flex items-center space-x-4">
           {/* Profile Button */}
           <button
@@ -49,16 +71,16 @@ function Navbar() {
             className="focus:outline-none"
           >
             <img
-              src={user.profileImage}
+              src={"https://i.pravatar.cc/40"}
               alt="Profile"
               className="w-10 h-10 rounded-full border-2 border-gray-300"
             />
           </button>
 
-          {/* Hamburger Button */}
+          {/* Hamburger */}
           <button
             onClick={() => setIsOpen(true)}
-            className="text-gray-700 hover:text-blue-700 focus:outline-none"
+            className="text-gray-700 hover:text-[#50589C] focus:outline-none"
           >
             <HiOutlineMenu size={28} />
           </button>
@@ -69,33 +91,34 @@ function Navbar() {
       {profileOpen && (
         <div className="absolute right-4 top-16 w-64 bg-white border border-gray-200 rounded-lg shadow-2xl z-50">
           <div className="flex flex-col items-center px-4 py-4 border-b border-gray-200 bg-gray-50">
-            <img src={user.profileImage} alt="Profile" className="w-16 h-16 rounded-full mb-2" />
-            <h2 className="text-lg font-semibold text-gray-800">{user.name}</h2>
-            <p className="text-sm text-gray-500">{user.title}</p>
-            <p className="text-sm text-gray-500">{user.department}</p>
-            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+            <img
+              src={"https://i.pravatar.cc/80"}
+              alt="Profile"
+              className="w-16 h-16 rounded-full mb-2"
+            />
+            <h2 className="text-lg font-semibold text-gray-800">{name || "Employee"}</h2>
+            <p className="text-sm text-gray-500">{department || "Department"}</p>
+            <p className="text-xs text-gray-400 truncate">{email}</p>
           </div>
+
           <div className="flex flex-col px-2 py-2">
             <Link
-              to={user.profileLink}
-              className="block px-4 py-2 text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700"
+              to="/profile"
+              className="block px-4 py-2 text-gray-700 rounded-md hover:bg-[#F2F4FF] hover:text-[#50589C]"
               onClick={() => setProfileOpen(false)}
             >
               My Profile
             </Link>
             <Link
-              to={user.settingsLink}
-              className="block px-4 py-2 text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700"
+              to="/settings"
+              className="block px-4 py-2 text-gray-700 rounded-md hover:bg-[#F2F4FF] hover:text-[#50589C]"
               onClick={() => setProfileOpen(false)}
             >
               Settings
             </Link>
             <button
               className="block w-full text-left px-4 py-2 text-gray-700 rounded-md hover:bg-red-100 hover:text-red-600"
-              onClick={() => {
-                setProfileOpen(false);
-                alert("Logged out");
-              }}
+              onClick={handleLogout}
             >
               Logout
             </button>
@@ -113,7 +136,7 @@ function Navbar() {
           className="flex justify-between items-center px-4 py-4 border-b"
           style={{ backgroundColor: colorPrimary }}
         >
-          <Link to="/" onClick={() => setIsOpen(false)}>
+          <Link to="/home" onClick={() => setIsOpen(false)}>
             <h1 className="text-xl font-bold text-white">HRMS</h1>
           </Link>
           <button onClick={() => setIsOpen(false)} className="text-white">
@@ -130,8 +153,8 @@ function Navbar() {
                 to={path}
                 className={`block px-3 py-2 rounded-md font-medium ${
                   active
-                    ? "bg-blue-100 text-blue-700"
-                    : "text-gray-700 hover:text-blue-700 hover:bg-blue-50"
+                    ? "bg-[#E8EBFF] text-[#3C467B] font-semibold"
+                    : "text-gray-700 hover:text-[#50589C] hover:bg-[#F2F4FF]"
                 }`}
                 onClick={() => setIsOpen(false)}
               >

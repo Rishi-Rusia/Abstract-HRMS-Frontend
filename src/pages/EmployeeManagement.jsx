@@ -1,135 +1,284 @@
-import React, { useState, useEffect } from "react";
-import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
-
-// Dummy employee data
-const dummyEmployees = [
-  { id: 1, name: "John Doe", email: "john.doe@example.com", department: "Engineering", title: "Software Engineer" },
-  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", department: "HR", title: "HR Manager" },
-  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", department: "Sales", title: "Sales Executive" },
-];
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { HiOutlinePencil, HiOutlineTrash, HiOutlineSearch } from "react-icons/hi";
+import Select from "react-select";
+import { fetchEmployees, deleteEmployee, updateEmployee } from "../redux/employeeSlice";
 
 export default function EmployeeManagement() {
-  const [employees, setEmployees] = useState([]);
+  const dispatch = useDispatch();
+  const { employees, loading } = useSelector((state) => state.employees);
+  const { department: userDept, isAdmin } = useSelector((state) => state.auth);
+
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [editingEmployee, setEditingEmployee] = useState(null);
-  const [formData, setFormData] = useState({ name: "", email: "", department: "", title: "" });
+  const [formData, setFormData] = useState({});
+  const [filters, setFilters] = useState({ name: "", email: "", department: "", isAdmin: "" });
 
+  const gradientHeader = "bg-gradient-to-r from-[#3C467B] via-[#50589C] to-[#636CCB]";
+
+  // ===== Fetch employees =====
   useEffect(() => {
-    // Simulate fetch
-    setEmployees(dummyEmployees);
-  }, []);
+    dispatch(fetchEmployees());
+  }, [dispatch]);
 
+  // ===== Apply filters =====
+  useEffect(() => {
+    let result = employees;
+    if (!isAdmin) result = result.filter((emp) => emp.department === userDept);
+
+    result = result.filter((emp) => {
+      return (
+        emp.name.toLowerCase().includes(filters.name.toLowerCase()) &&
+        emp.email.toLowerCase().includes(filters.email.toLowerCase()) &&
+        emp.department.toLowerCase().includes(filters.department.toLowerCase()) &&
+        (filters.isAdmin === "" || emp.isAdmin === (filters.isAdmin === "true"))
+      );
+    });
+
+    setFilteredEmployees(result);
+  }, [filters, employees, isAdmin, userDept]);
+
+  // ===== CRUD =====
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
-      setEmployees(employees.filter(emp => emp.id !== id));
+      dispatch(deleteEmployee(id));
     }
   };
 
   const handleEdit = (employee) => {
     setEditingEmployee(employee);
-    setFormData({
-      name: employee.name,
-      email: employee.email,
-      department: employee.department,
-      title: employee.title
-    });
+    setFormData({ ...employee });
   };
 
   const handleSave = () => {
-    setEmployees(employees.map(emp => 
-      emp.id === editingEmployee.id ? { ...editingEmployee, ...formData } : emp
-    ));
+    dispatch(updateEmployee({ id: editingEmployee.employeeId, employee: formData }));
     setEditingEmployee(null);
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Employee Management</h1>
+    <div className="p-8 bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-[#3C467B]">Employee Management</h1>
+      </div>
 
-      <table className="min-w-full border border-gray-200">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="px-4 py-2 text-left">Name</th>
-            <th className="px-4 py-2 text-left">Email</th>
-            <th className="px-4 py-2 text-left">Department</th>
-            <th className="px-4 py-2 text-left">Title</th>
-            <th className="px-4 py-2 text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map(emp => (
-            <tr key={emp.id} className="border-t">
-              <td className="px-4 py-2">{emp.name}</td>
-              <td className="px-4 py-2">{emp.email}</td>
-              <td className="px-4 py-2">{emp.department}</td>
-              <td className="px-4 py-2">{emp.title}</td>
-              <td className="px-4 py-2 text-center space-x-2">
-                <button 
-                  onClick={() => handleEdit(emp)} 
-                  className="text-blue-600 hover:text-blue-800"
-                  title="Edit"
-                >
-                  <HiOutlinePencil size={20} />
-                </button>
-                <button 
-                  onClick={() => handleDelete(emp.id)} 
-                  className="text-red-600 hover:text-red-800"
-                  title="Delete"
-                >
-                  <HiOutlineTrash size={20} />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Filters */}
+      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 border border-gray-100">
+        <h2 className="text-lg font-semibold mb-4 text-[#3C467B] flex items-center gap-2">
+          <HiOutlineSearch size={20} /> Search Filters
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={filters.name}
+            onChange={(e) => setFilters({ ...filters, name: e.target.value })}
+            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
+          />
+          <input
+            type="text"
+            placeholder="Search by email"
+            value={filters.email}
+            onChange={(e) => setFilters({ ...filters, email: e.target.value })}
+            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
+          />
+          <input
+            type="text"
+            placeholder="Search by department"
+            value={filters.department}
+            onChange={(e) => setFilters({ ...filters, department: e.target.value })}
+            disabled={!isAdmin}
+            className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#636CCB] ${
+              !isAdmin ? "bg-gray-100 cursor-not-allowed" : ""
+            }`}
+          />
+          <select
+            value={filters.isAdmin}
+            onChange={(e) => setFilters({ ...filters, isAdmin: e.target.value })}
+            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
+          >
+            <option value="">All Roles</option>
+            <option value="true">Admins</option>
+            <option value="false">Employees</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Employee Cards */}
+      {loading ? (
+        <p className="text-center text-gray-500">Loading...</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredEmployees.map((emp) => {
+            const avatarUrl = `https://avatar.iran.liara.run/public/${emp.employeeId}`;
+
+            // Map junior IDs to names
+            const juniorNames =
+              emp.myJuniors && emp.myJuniors.length > 0
+                ? emp.myJuniors
+                    .map((id) => employees.find((e) => e.employeeId === id)?.name)
+                    .filter(Boolean)
+                    .join(", ")
+                : "None";
+
+            return (
+              <div
+                key={emp.employeeId}
+                className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 flex flex-col justify-between hover:shadow-xl transition-all"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <img
+                    src={avatarUrl}
+                    alt={emp.name}
+                    className="w-16 h-16 rounded-full border-2 border-[#636CCB]"
+                  />
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#3C467B]">{emp.name}</h3>
+                    <p className="text-gray-600">{emp.email}</p>
+                    <p className="text-sm text-gray-500">
+                      <strong>Employee ID:</strong> {emp.employeeId}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm mt-1 text-gray-500">
+                  <strong>Department:</strong> {emp.department}
+                </p>
+                <p className="text-sm mt-1 text-gray-500">
+                  <strong>Role:</strong> {emp.isAdmin ? "Admin" : "Employee"}
+                </p>
+                <p className="text-sm mt-1 text-gray-500">
+                  <strong>Manager ID:</strong> {emp.managerId}
+                </p>
+                <p className="text-sm mt-1 text-gray-500">
+                  <strong>Juniors:</strong> {juniorNames}
+                </p>
+                <p className="text-sm mt-1 text-gray-500">
+                  <strong>Total Leaves:</strong> {emp.totalLeaves}
+                </p>
+
+                <div className="flex justify-end space-x-3 mt-4">
+                  <button
+                    onClick={() => handleEdit(emp)}
+                    className="px-3 py-1.5 rounded-md bg-[#E8EBFF] text-[#3C467B] hover:bg-[#D8DCFF] transition"
+                    title="Edit"
+                  >
+                    <HiOutlinePencil size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(emp.employeeId)}
+                    className="px-3 py-1.5 rounded-md bg-red-100 text-red-600 hover:bg-red-200 transition"
+                    title="Delete"
+                  >
+                    <HiOutlineTrash size={18} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Edit Modal */}
       {editingEmployee && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Edit Employee</h2>
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/20 z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg overflow-y-auto max-h-[90vh]">
+            <h2 className="text-2xl font-bold text-[#3C467B] mb-4">Edit Employee</h2>
 
-            <div className="flex flex-col space-y-3">
-              <input 
-                type="text" 
-                placeholder="Name" 
-                value={formData.name}
-                onChange={e => setFormData({...formData, name: e.target.value})}
-                className="border px-3 py-2 rounded-md w-full"
+            <div className="flex flex-col space-y-4">
+              {/* Editable fields */}
+              <label className="text-sm font-medium text-gray-700">Name</label>
+              <input
+                type="text"
+                value={formData.name || ""}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
               />
-              <input 
-                type="email" 
-                placeholder="Email" 
-                value={formData.email}
-                onChange={e => setFormData({...formData, email: e.target.value})}
-                className="border px-3 py-2 rounded-md w-full"
+
+              <label className="text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                value={formData.email || ""}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
               />
-              <input 
-                type="text" 
-                placeholder="Department" 
-                value={formData.department}
-                onChange={e => setFormData({...formData, department: e.target.value})}
-                className="border px-3 py-2 rounded-md w-full"
+
+              <label className="text-sm font-medium text-gray-700">Department</label>
+              <input
+                type="text"
+                value={formData.department || ""}
+                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
               />
-              <input 
-                type="text" 
-                placeholder="Title" 
-                value={formData.title}
-                onChange={e => setFormData({...formData, title: e.target.value})}
-                className="border px-3 py-2 rounded-md w-full"
+
+              <label className="text-sm font-medium text-gray-700">Role</label>
+              <select
+                value={formData.isAdmin ? "true" : "false"}
+                onChange={(e) =>
+                  setFormData({ ...formData, isAdmin: e.target.value === "true" })
+                }
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
+              >
+                <option value="false">Employee</option>
+                <option value="true">Admin</option>
+              </select>
+
+              <label className="text-sm font-medium text-gray-700">Employee ID</label>
+              <input
+                type="number"
+                value={formData.employeeId || ""}
+                onChange={(e) => setFormData({ ...formData, employeeId: Number(e.target.value) })}
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
+              />
+
+              <label className="text-sm font-medium text-gray-700">Manager ID</label>
+              <input
+                type="number"
+                value={formData.managerId || 0}
+                onChange={(e) => setFormData({ ...formData, managerId: Number(e.target.value) })}
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
+              />
+
+              <label className="text-sm font-medium text-gray-700">Juniors</label>
+              <Select
+                isMulti
+                options={employees
+                  .filter((emp) => emp.employeeId !== formData.employeeId)
+                  .map((emp) => ({ value: emp.employeeId, label: emp.name }))}
+                value={employees
+                  .filter((emp) => formData.myJuniors?.includes(emp.employeeId))
+                  .map((emp) => ({ value: emp.employeeId, label: emp.name }))}
+                onChange={(selectedOptions) =>
+                  setFormData({
+                    ...formData,
+                    myJuniors: selectedOptions.map((opt) => opt.value),
+                  })
+                }
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
+
+              <label className="text-sm font-medium text-gray-700">Total Leaves</label>
+              <input
+                type="number"
+                value={formData.totalLeaves || 0}
+                onChange={(e) =>
+                  setFormData({ ...formData, totalLeaves: Number(e.target.value) })
+                }
+                className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#636CCB]"
               />
             </div>
 
-            <div className="mt-4 flex justify-end space-x-3">
-              <button 
-                onClick={() => setEditingEmployee(null)} 
-                className="px-4 py-2 rounded-md border hover:bg-gray-100"
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={() => setEditingEmployee(null)}
+                className="px-5 py-2 rounded-md border hover:bg-gray-100 transition"
               >
                 Cancel
               </button>
-              <button 
-                onClick={handleSave} 
-                className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+              <button
+                onClick={handleSave}
+                className={`${gradientHeader} text-white px-5 py-2 rounded-md hover:opacity-90 transition`}
               >
                 Save
               </button>
