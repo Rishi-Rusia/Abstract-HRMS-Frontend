@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './counterSlice';
 import authReducer from './authSlice';
 import employeeReducer from './employeeSlice'; // import employee slice
+import leaveAdminReducer from './leaveAdminSlice';
 
 // ===== Logger Middleware =====
 const loggerMiddleware = (store) => (next) => (action) => {
@@ -20,6 +21,7 @@ export const store = configureStore({
     counter: counterReducer,
     auth: authReducer,
     employees: employeeReducer, // added employee reducer
+    leaveAdmin: leaveAdminReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(loggerMiddleware),
