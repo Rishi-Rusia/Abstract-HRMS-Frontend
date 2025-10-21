@@ -7,6 +7,10 @@ import Footer from "./components/Footer";
 import EmployeeManagement from "./pages/EmployeeManagement";
 import Timesheet from "./pages/Timesheet";
 import Orgchart from "./pages/Orgchart";
+import Login from './pages/Login';
+import LeaveManagement from "./pages/LeaveManagement";
+import OnboardEmployee from './pages/OnboardEmployee';
+import Profile from "./pages/Profile";
 
 function App() {
   const location = useLocation();
@@ -44,6 +48,9 @@ function App() {
             <Route path="/timesheets" element={<Timesheet/>}/>
             {/* 🎯 UPDATED ROUTE: Changed from /organisation-chart to /orgchart */}
             <Route path="/orgchart" element={<Orgchart/>}/> 
+            <Route path="/leave-management" element={<LeaveManagement/>}/>
+            <Route path="/onboard" element={<OnboardEmployee/>} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </main>
         <Footer />

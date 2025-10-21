@@ -80,11 +80,10 @@ function Sidebar() {
             <Link
               key={path}
               to={path}
-              className={`flex items-center space-x-3 px-4 py-2.5 rounded-md font-medium transition-all duration-200 ${
-                isActive
+              className={`flex items-center space-x-3 px-4 py-2.5 rounded-md font-medium transition-all duration-200 ${isActive
                   ? "bg-[#E8EBFF] text-[#3C467B] font-semibold"
                   : "text-gray-700 hover:text-[#50589C] hover:bg-[#F2F4FF]"
-              }`}
+                }`}
             >
               {icon}
               <span>{label}</span>
