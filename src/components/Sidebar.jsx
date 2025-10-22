@@ -43,7 +43,7 @@ function Sidebar() {
   } else {
     navLinks = [
       { label: "Home", path: "/home", icon: <HiOutlineHome size={20} /> },
-      { label: "Leave Application", path: "/leave-application", icon: <HiOutlineCalendar size={20} /> },
+      { label: "Leave Application", path: "/leave-submission", icon: <HiOutlineCalendar size={20} /> },
       { label: "Leave History", path: "/leave-history", icon: <HiOutlineCalendar size={20} /> },
       { label: "Log Timesheet", path: "/log-timesheet", icon: <HiOutlineClock size={20} /> },
       { label: "Your Feedback", path: "/your-feedback", icon: <HiOutlineChatAlt2 size={20} /> },
