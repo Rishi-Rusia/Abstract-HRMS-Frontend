@@ -6,8 +6,12 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import EmployeeManagement from "./pages/EmployeeManagement";
+import Timesheet from "./pages/Timesheet";
+import Orgchart from "./pages/Orgchart";
+import Login from './pages/Login';
 import LeaveManagement from "./pages/LeaveManagement";
-import Login from "./pages/Login";
+import OnboardEmployee from './pages/OnboardEmployee';
+import Profile from "./pages/Profile";
 import LeaveSubmission from "./pages/LeaveSubmission";
 import LeaveHistory from "./pages/LeaveHistory";
 import Timesheet from "./pages/Timesheet";
@@ -70,18 +74,22 @@ function App() {
             <Navbar />
           </div>
 
-          <main className="px-4 py-6">
+          <main className="px-4 py-6 flex-1">
             <Routes>
               <Route path="/home" element={<Home />} />
               <Route path="/about" element={<About />} />
-              <Route path="/employee-management" element={<EmployeeManagement />} />
-              <Route path="/leave-management" element={<LeaveManagement />} />
+              <Route path="/employee-management" element={<EmployeeManagement/>}/>
+            <Route path="/timesheets" element={<Timesheet/>}/>
+            {/* 🎯 UPDATED ROUTE: Changed from /organisation-chart to /orgchart */}
+            <Route path="/orgchart" element={<Orgchart/>}/> 
+              <Route path="/leave-management" element={<LeaveManagement/>}/>
+            <Route path="/onboard" element={<OnboardEmployee/>} />
+            <Route path="/profile" element={<Profile />} />
               <Route path="/leave-submission" element={<LeaveSubmission />} />
               <Route path="/leave-history" element={<LeaveHistory />} />
               <Route path="/log-timesheet" element={<Timesheet/>} />
             </Routes>
           </main>
-
           <Footer />
         </div>
       </div>
