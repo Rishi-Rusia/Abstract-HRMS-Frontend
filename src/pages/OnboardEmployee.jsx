@@ -585,7 +585,7 @@ export default function OnboardEmployee() {
 
 
     return (
-        <div className="p-6 md:p-10 space-y-8 bg-gray-50 min-h-screen">
+        <div className="mt-10 md:mt-0 p-6 md:p-10 space-y-8 bg-gray-50 min-h-screen">
 
             {/* Header and View Toggle */}
             <div className="flex justify-between items-start pt-4">

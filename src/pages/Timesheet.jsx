@@ -739,12 +739,6 @@ const employeeDirectory = EMPLOYEE_DATA_RAW.reduce((acc, emp) => {
             role.includes("Architect") ||
             role.includes("Technical Lead")
         ) {
-        if (
-            role.includes("Software") ||
-            role.includes("Developer") ||
-            role.includes("Architect") ||
-            role.includes("Technical Lead")
-        ) {
             role = role.includes("QA") ? "QA Engineer" : "Developer";
         } else if (role.includes("QA") || role.includes("Quality Assurance")) {
             role = "QA Engineer";
@@ -1011,7 +1005,6 @@ const ALL_MONTHS = [
  
 export default function Timesheet() {
     // State to hold and manage all timesheet entries
-    // State to hold and manage all timesheet entries
     const [rawEntries, setRawEntries] = useState([]);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -1199,7 +1192,7 @@ export default function Timesheet() {
  
     return (
         <div
-            className="w-full max-w-5xl mx-auto p-4 md:p-6 rounded-2xl shadow-xl"
+            className="mt-10 md:mt-0 w-full max-w-5xl mx-auto p-4 md:p-6 rounded-2xl shadow-xl"
             style={{
                 background: "linear-gradient(to bottom right, #EEF1FD, #F5F6FF)", // Home.jsx Background
             }}
@@ -1208,60 +1201,8 @@ export default function Timesheet() {
                
                 {/* --- Header --- */}
                 <header className="flex justify-between items-center pb-4 border-b border-gray-200">
-                    <h1 className="text-2xl font-bold text-gray-800">Timesheet</h1> {/* Matched text-gray-800 */}
-                    <div className="flex items-center space-x-4 text-sm">
-                       
-                        {/* 1. Month Dropdown */}
-                        <div className="relative">
-                            <select
-                                value={selectedMonth}
-                                onChange={(e) => setSelectedMonth(e.target.value)}
-                                className="appearance-none px-3 py-1 pr-8 text-white rounded-md font-semibold shadow-md focus:ring-1 cursor-pointer"
-                                style={{
-                                    backgroundColor: SECONDARY_BLUE,
-                                    outline: 'none',
-                                    '--tw-ring-color': PRIMARY_BLUE,
-                                }}
-                            >
-                                {/* Added all months */}
-                                {ALL_MONTHS.map(m => (
-                                    <option key={m} value={m} className="text-gray-800 bg-white">{m}</option>
-                                ))}
-                            </select>
-                            {/* Custom Chevron icon - Adjusted for better spacing and visibility */}
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-white">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
- 
-                        {/* 2. Week Selector Dropdown */}
-                        <div className="relative">
-                            <select
-                                value={selectedWeek}
-                                onChange={(e) => setSelectedWeek(Number(e.target.value))}
-                                className="appearance-none px-3 py-1 pr-8 bg-white border border-gray-300 text-gray-700 rounded-md shadow-sm font-semibold focus:ring-1 cursor-pointer"
-                                style={{
-                                    outline: 'none',
-                                    borderColor: '#E5E7EB',
-                                    '--tw-ring-color': PRIMARY_BLUE,
-                                    '--tw-focus-ring-color': PRIMARY_BLUE,
-                                }}
-                            >
-                                <option value="" disabled>Select Week</option>
-                                {/* Simplified Week Options */}
-                                <option value={4}>Week 4</option>
-                                <option value={3}>Week 3</option>
-                                <option value={2}>Week 2</option>
-                                <option value={1}>Week 1</option>
-                            </select>
-                            {/* Custom Chevron icon - Adjusted for better spacing */}
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-gray-500">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
- 
-                        <button className="text-gray-400 hover:text-gray-600 text-xl">...</button>
-                    </div>
+                    <h1 className="mt-5 md:mt-0 mx-auto text-3xl font-bold text-[#3C467B]">Timesheet</h1> {/* Matched text-gray-800 */}
+                    
                 </header>
  
                 {/* Enhanced Error Display */}

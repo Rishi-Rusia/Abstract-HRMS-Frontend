@@ -51,7 +51,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="p-6 min-h-screen bg-[#F7F8FC]">
+    <div className="mt-10 md:mt-0 p-6 min-h-screen bg-[#F7F8FC]">
       <h1 className="text-3xl font-bold text-[#3C467B] mb-8">
         Welcome, {name || "User"}
       </h1>

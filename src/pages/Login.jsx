@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser, logout } from "../redux/authSlice";
+import { loginUser } from "../redux/authSlice";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,11 +9,9 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Get auth state from Redux
   const { employeeId, name, loading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // If login successful, redirect
     if (employeeId) {
       console.log(`Login successful for ${name} (ID: ${employeeId}), redirecting to /home`);
       navigate("/home");
@@ -22,15 +20,30 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     console.log("Dispatching loginUser thunk with:", { email, password });
     dispatch(loginUser({ email, password }));
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#3C467B] to-[#6E8CFB] px-4">
-      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8 space-y-6 transform transition-all hover:scale-[1.02] duration-300">
+    <div
+  className="flex items-center justify-center min-h-screen px-4 bg-cover bg-top bg-no-repeat"
+  style={{
+    backgroundImage:
+      "url('https://media.licdn.com/dms/image/v2/D4E22AQGMnI0cIAqcdw/feedshare-shrink_2048_1536/B4EZmqIDkPIQAw-/0/1759495864110?e=1762992000&v=beta&t=SrjbbuBu0oUqTKqIAqbvA_LQVe5OVtxFUrM_Z4cdE0M')",
+  }}
+>
+      <div className="bg-white bg-opacity-90 shadow-2xl rounded-2xl w-full max-w-md p-8 space-y-6 transform transition-all hover:scale-[1.02] duration-300">
+        {/* Company Logo */}
+        <div className="flex justify-center">
+          <img
+            src="https://www.abstract-group.com/hubfs/Abstract%20Group%20Logo%20Layout%202.png"
+            alt="Company Logo"
+            className="h-16 object-contain"
+          />
+        </div>
+
         <h2 className="text-3xl font-bold text-center text-[#3C467B]">HRMS Login</h2>
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-[#50589C] font-semibold mb-1">Email</label>

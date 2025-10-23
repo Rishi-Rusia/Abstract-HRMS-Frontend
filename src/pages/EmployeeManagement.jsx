@@ -56,7 +56,7 @@ export default function EmployeeManagement() {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="mt-10 md:mt-0 p-8 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-[#3C467B]">Employee Management</h1>
@@ -111,6 +111,7 @@ export default function EmployeeManagement() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEmployees.map((emp) => {
             const avatarUrl = `https://avatar.iran.liara.run/public/${emp.employeeId}`;
+              // const avatarUrl = `https://i.pravatar.cc/40`;
 
             // Map junior IDs to names
             const juniorNames =

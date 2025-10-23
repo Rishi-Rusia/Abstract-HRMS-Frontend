@@ -14,8 +14,34 @@ export default function LeaveSubmission() {
   });
   const [status, setStatus] = useState("");
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const today = new Date().toISOString().split("T")[0];
+
+  const isWeekend = (dateStr) => {
+    const day = new Date(dateStr).getDay();
+    return day === 0 || day === 6;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "fromDate" || name === "toDate") {
+      const selected = new Date(value);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+
+      if (selected < now) {
+        alert("Past dates are disabled.");
+        return;
+      }
+
+      if (isWeekend(value)) {
+        alert("Saturday and Sunday are not selectable.");
+        return;
+      }
+    }
+
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,14 +66,14 @@ export default function LeaveSubmission() {
   };
 
   return (
-    <div className="flex-1 min-h-screen from-[#3C467B]/20 via-[#50589C]/20 to-[#636CCB]/20 px-6 py-10">
+    <div className="mt-10 md:mt-0 flex-1 min-h-screen from-[#3C467B]/20 via-[#50589C]/20 to-[#636CCB]/20 px-6 py-10">
       <h1 className="text-3xl font-bold text-[#3C467B] mb-8 tracking-wide">
         Apply Leave
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl w-full"
+        className="bg-white/10 backdrop-blur-md w-full"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -85,6 +111,7 @@ export default function LeaveSubmission() {
             <input
               type="date"
               name="fromDate"
+              min={today}
               value={formData.fromDate}
               onChange={handleChange}
               required
@@ -99,6 +126,7 @@ export default function LeaveSubmission() {
             <input
               type="date"
               name="toDate"
+              min={today}
               value={formData.toDate}
               onChange={handleChange}
               required

@@ -65,15 +65,25 @@ function Sidebar() {
   return (
     <aside className="flex flex-col w-72 bg-white border-r border-gray-200 shadow-xl min-h-screen p-5">
       {/* Logo */}
-      <Link
-        to="/home"
-        className="mb-10 text-3xl font-bold tracking-tight bg-gradient-to-r from-[#3C467B] via-[#50589C] to-[#636CCB] text-transparent bg-clip-text hover:opacity-90 transition"
-      >
-        HRMS
-      </Link>
+      <div className="flex items-center gap-2 mt-0 md:mt-3">
+  <img
+    src="https://media.licdn.com/dms/image/v2/D4E0BAQGM8mTYyRDJhw/company-logo_200_200/company-logo_200_200/0/1707204892363/abstract_tech_ltd_logo?e=2147483647&v=beta&t=I0YoAljlfY9YiP0_bQg2IP5VZdHqm9WGvghKrgB8jv8"
+    alt="Company Logo"
+    className="h-[2.5em] w-auto object-contain"
+  />
+  <Link
+    to="/home"
+    className="text-3xl font-bold tracking-tight bg-gradient-to-r from-[#3C467B] via-[#50589C] to-[#636CCB] text-transparent bg-clip-text hover:opacity-90 transition"
+  >
+    HRMS
+  </Link>
+</div>
+
+      
+      
 
       {/* Navigation */}
-      <nav className="flex flex-col space-y-3">
+      <nav className="flex flex-col space-y-3 mt-0 md:mt-5">
         {navLinks.map(({ label, path, icon }) => {
           const isActive = location.pathname === path;
           return (
@@ -99,7 +109,7 @@ function Sidebar() {
           onClick={() => setProfileOpen(!profileOpen)}
         >
           <img
-            src={"https://i.pravatar.cc/40"}
+            src={"https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
             alt="Profile"
             className="w-10 h-10 rounded-full border-2 border-gray-300"
           />
@@ -113,7 +123,7 @@ function Sidebar() {
           <div className="absolute bottom-16 left-0 w-full bg-white border border-gray-200 shadow-2xl rounded-lg z-50 overflow-hidden">
             <div className="flex flex-col items-center px-4 py-4 border-b border-gray-200 bg-gray-50">
               <img
-                src={"https://i.pravatar.cc/80"}
+                src={"https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
                 alt="Profile"
                 className="w-16 h-16 rounded-full mb-2"
               />

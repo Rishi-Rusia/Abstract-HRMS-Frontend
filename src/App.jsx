@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./pages/Home";
-import About from "./pages/About";
+
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import LeaveSubmission from "./pages/LeaveSubmission";
 import LeaveHistory from "./pages/LeaveHistory";
 import LogTimeSheet from "./pages/LogTimesheet";
+import Feedback from "./pages/Feedback";
 
 // Enhanced Loader Component
 function Loader() {
@@ -74,10 +75,10 @@ function App() {
             <Navbar />
           </div>
 
-          <main className="px-4 py-6 flex-1">
+          <main className="px-4 py-6 pb-16 flex-1">
             <Routes>
               <Route path="/home" element={<Home />} />
-              <Route path="/about" element={<About />} />
+              
               <Route path="/employee-management" element={<EmployeeManagement/>}/>
             <Route path="/timesheets" element={<Timesheet/>}/>
             {/* 🎯 UPDATED ROUTE: Changed from /organisation-chart to /orgchart */}
@@ -88,6 +89,7 @@ function App() {
               <Route path="/leave-submission" element={<LeaveSubmission />} />
               <Route path="/leave-history" element={<LeaveHistory />} />
               <Route path="/log-timesheet" element={<LogTimeSheet/>} />
+              <Route path="your-feedback" element={<Feedback/>}/>
             </Routes>
           </main>
           <Footer />

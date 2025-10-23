@@ -403,7 +403,7 @@ const EmployeeHierarchyChart = () => {
   // JSX return
   // -------------------------
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="mt-10 md:mt-0" style={{ padding: "20px" }}>
       {/* Top controls */}
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 14 }}>
         {/* View Mode Toggle Buttons */}
@@ -419,7 +419,7 @@ const EmployeeHierarchyChart = () => {
                     fontWeight: 700,
                 }}
             >
-                Chart View 📊
+                Chart View
             </button>
             <button
                 onClick={() => setViewMode('table')}
@@ -432,7 +432,7 @@ const EmployeeHierarchyChart = () => {
                     fontWeight: 700,
                 }}
             >
-                Table View 📋
+                Table View
             </button>
         </div>
 

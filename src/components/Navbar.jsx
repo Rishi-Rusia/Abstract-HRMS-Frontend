@@ -32,7 +32,7 @@ function Navbar() {
 
   const employeeLinks = [
     { name: "Home", path: "/home" },
-    { name: "Leave Application", path: "/leave-application" },
+    { name: "Leave Application", path: "/leave-submission" },
     { name: "Leave History", path: "/leave-history" },
     { name: "Log Timesheet", path: "/log-timesheet" },
     { name: "Your Feedback", path: "/your-feedback" },
@@ -55,6 +55,9 @@ function Navbar() {
     >
       <div className="flex justify-between items-center h-16 px-4">
         {/* Brand */}
+
+        <div className=" flex ">
+{/* <img src="https://media.licdn.com/dms/image/v2/D4E0BAQGM8mTYyRDJhw/company-logo_200_200/company-logo_200_200/0/1707204892363/abstract_tech_ltd_logo?e=2147483647&v=beta&t=I0YoAljlfY9YiP0_bQg2IP5VZdHqm9WGvghKrgB8jv8" alt="" /> */}
         <Link
           to="/home"
           className="text-3xl font-bold"
@@ -62,6 +65,10 @@ function Navbar() {
         >
           HRMS
         </Link>
+
+        </div>
+
+        
 
         {/* Right Controls */}
         <div className="flex items-center space-x-4">
@@ -136,6 +143,7 @@ function Navbar() {
           className="flex justify-between items-center px-4 py-4 border-b"
           style={{ backgroundColor: colorPrimary }}
         >
+          {/* <img src="https://media.licdn.com/dms/image/v2/D4E0BAQGM8mTYyRDJhw/company-logo_200_200/company-logo_200_200/0/1707204892363/abstract_tech_ltd_logo?e=2147483647&v=beta&t=I0YoAljlfY9YiP0_bQg2IP5VZdHqm9WGvghKrgB8jv8" alt="" /> */}
           <Link to="/home" onClick={() => setIsOpen(false)}>
             <h1 className="text-xl font-bold text-white">HRMS</h1>
           </Link>

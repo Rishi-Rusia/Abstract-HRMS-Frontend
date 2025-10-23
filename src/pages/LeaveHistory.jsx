@@ -56,7 +56,7 @@ export default function LeaveHistory() {
 
 
   return (
-    <div className="min-h-scree from-[#3C467B]/20 via-[#50589C]/20 to-[#636CCB]/20 px-8 py-10">
+    <div className="mt-10 md:mt-0 min-h-scree from-[#3C467B]/20 via-[#50589C]/20 to-[#636CCB]/20 px-8 py-10">
       <h1 className="text-3xl font-bold mb-8 text-[#3C467B]">Leave History</h1>
 
       <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg pt-1">

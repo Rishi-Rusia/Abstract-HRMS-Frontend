@@ -173,7 +173,7 @@ export default function LeaveManagement() {
       </div>
 
       {/* Upcoming & Available Days */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mt-10 md:mt-0 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex items-center p-4 bg-white rounded-xl shadow-md border-l-4 border-[#3C467B] space-x-3">
           <HiOutlineCalendar size={28} className="text-[#3C467B]" />
           <div>

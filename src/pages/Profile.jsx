@@ -19,7 +19,7 @@ const Profile = () => {
     );
 
     return (
-        <div className="p-8 bg-gray-50 min-h-screen">
+        <div className="mt-10 md:mt-0 p-8 bg-gray-50 min-h-screen">
             {/* Header */}
             <div className="max-w-5xl mx-auto">
                 <h1 className="text-3xl font-extrabold text-[#3C467B] mb-6">
@@ -29,14 +29,19 @@ const Profile = () => {
                 {/* Profile Card */}
                 <div className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-100">
                     {/* Animated Gradient Banner */}
-                    <div className="h-36 bg-gradient-to-r from-[#3C467B] via-[#50589C] to-[#636CCB] animate-gradient-x" />
+                    <div
+  className="h-36 bg-gradient-to-r from-[#3C467B] via-[#50589C] to-[#636CCB] animate-gradient-x bg-cover bg-bottom"
+  style={{
+    backgroundImage: "url('https://media.licdn.com/dms/image/v2/D4E16AQEll6r5geBzTg/profile-displaybackgroundimage-shrink_200_800/B4EZc12vNjG4AY-/0/1748955231815?e=2147483647&v=beta&t=lox5YKVHuYPcqljOk9MXNMjFNaxauZo1P81xmfU4ZS8')",
+  }}
+/>
+
+
 
                     {/* Profile Info */}
                     <div className="flex flex-col items-center -mt-16 pb-6">
                         <img
-                            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                                name || "Employee"
-                            )}&background=3C467B&color=fff&size=128`}
+                            src={`https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png`}
                             alt="Profile"
                             className="w-28 h-28 rounded-full border-4 border-white shadow-lg"
                         />

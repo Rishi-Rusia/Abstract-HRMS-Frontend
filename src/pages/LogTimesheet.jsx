@@ -77,7 +77,7 @@ export default function Timesheet() {
   }, [employeeId]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#3C467B]/10 via-[#50589C]/10 to-[#636CCB]/10 px-6 py-10">
+    <div className="mt-10 md:mt-0 min-h-screen bg-gradient-to-br from-[#3C467B]/10 via-[#50589C]/10 to-[#636CCB]/10 px-6 py-10">
       {/* Submit Form */}
       <form
         onSubmit={handleSubmit}
