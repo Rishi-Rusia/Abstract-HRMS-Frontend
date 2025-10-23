@@ -311,7 +311,7 @@ export default function OnboardEmployee() {
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await axios.get("https://localhost:7164/api/Employee");
+                const response = await axios.get("http://localhost:5149/api/Employee");
                 const allEmployees = response.data;
 
                 // Store full list for manager/subordinate mapping
@@ -423,7 +423,7 @@ export default function OnboardEmployee() {
         }
     };
 
-    const API_BASE_URL = "https://localhost:7164/api";
+    const API_BASE_URL = "http://localhost:5149/api";
 
     const handleSubmit = async () => {
         try {
@@ -466,7 +466,7 @@ export default function OnboardEmployee() {
 
 
             // Refresh subordinate suggestions (non-admins)
-            const responsee = await axios.get("https://localhost:7164/api/Employee");
+            const responsee = await axios.get("http://localhost:5149/api/Employee");
             const nonAdminEmployees = responsee.data.filter(emp => !emp.isAdmin);
             setExistingEmployeeNames(nonAdminEmployees.map(emp => emp.name));
 

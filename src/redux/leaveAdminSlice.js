@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Base API URL
-const API_URL = "https://localhost:7164/api/Leave";
+const API_URL = "http://localhost:5149/api/Leave";
 
 // Fetch all leaves
 export const fetchLeaves = createAsyncThunk("leaveAdmin/fetchLeaves", async () => {

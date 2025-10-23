@@ -14,7 +14,7 @@ import OnboardEmployee from './pages/OnboardEmployee';
 import Profile from "./pages/Profile";
 import LeaveSubmission from "./pages/LeaveSubmission";
 import LeaveHistory from "./pages/LeaveHistory";
-import Timesheet from "./pages/Timesheet";
+import LogTimeSheet from "./pages/LogTimesheet";
 
 // Enhanced Loader Component
 function Loader() {
@@ -87,7 +87,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
               <Route path="/leave-submission" element={<LeaveSubmission />} />
               <Route path="/leave-history" element={<LeaveHistory />} />
-              <Route path="/log-timesheet" element={<Timesheet/>} />
+              <Route path="/log-timesheet" element={<LogTimeSheet/>} />
             </Routes>
           </main>
           <Footer />
