@@ -739,6 +739,12 @@ const employeeDirectory = EMPLOYEE_DATA_RAW.reduce((acc, emp) => {
             role.includes("Architect") ||
             role.includes("Technical Lead")
         ) {
+        if (
+            role.includes("Software") ||
+            role.includes("Developer") ||
+            role.includes("Architect") ||
+            role.includes("Technical Lead")
+        ) {
             role = role.includes("QA") ? "QA Engineer" : "Developer";
         } else if (role.includes("QA") || role.includes("Quality Assurance")) {
             role = "QA Engineer";
@@ -1004,6 +1010,7 @@ const ALL_MONTHS = [
 ];
  
 export default function Timesheet() {
+    // State to hold and manage all timesheet entries
     // State to hold and manage all timesheet entries
     const [rawEntries, setRawEntries] = useState([]);
     const [loading, setLoading] = useState(true);
